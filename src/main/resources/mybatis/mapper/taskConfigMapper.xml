@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cherish.learn.quartz_web.dal.mapper.TaskConfigMapper" >
+    <!--<cache/>  cacheEnabled=false 对于分布式，Mybatis二级缓存太鸡肋
+      而且对任意更新都会清空整个Mapper缓存，不能对单独键值更新 -->
+
+    <resultMap id="BaseResultMap" type="cn.cherish.learn.quartz_web.dal.entity.TaskConfig" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+        <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+        <result column="task_status" property="taskStatus" jdbcType="VARCHAR" />
+        <result column="task_cron" property="taskCron" jdbcType="VARCHAR" />
+        <result column="previous_fire_time" property="previousFireTime" jdbcType="TIMESTAMP" />
+        <result column="next_fire_time" property="nextFireTime" jdbcType="TIMESTAMP" />
+        <result column="task_desc" property="taskDesc" jdbcType="VARCHAR" />
+        <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
+        <result column="contact_email" property="contactEmail" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, group_name, task_name, task_status, task_cron, previous_fire_time, next_fire_time, task_desc, contact_name, contact_email
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM task_config
+    </select>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM task_config
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="cn.cherish.learn.quartz_web.dal.entity.TaskConfig" >
+        INSERT INTO task_config
+        (group_name, task_name, task_status, task_cron, previous_fire_time, next_fire_time, task_desc, contact_name, contact_email)
+        VALUES
+        (#{groupName}, #{taskName}, #{taskStatus}, #{taskCron}, #{previousFireTime}, #{nextFireTime}, #{taskDesc}, #{contactName}, #{contactEmail})
+    </insert>
+
+    <update id="updateById" parameterType="cn.cherish.learn.quartz_web.dal.entity.TaskConfig" >
+        UPDATE task_config
+        <set>
+            <if test="groupName != null">group_name = #{groupName},</if>
+            <if test="taskName != null">task_name = #{taskName},</if>
+            <if test="taskStatus != null">task_status = #{taskStatus},</if>
+            <if test="taskCron != null">task_cron = #{taskCron},</if>
+            <if test="previousFireTime != null">previous_fire_time = #{previousFireTime},</if>
+            <if test="nextFireTime != null">next_fire_time = #{nextFireTime},</if>
+            <if test="taskDesc != null">task_desc = #{taskDesc},</if>
+            <if test="contactName != null">contact_name = #{contactName},</if>
+            <if test="contactEmail != null">contact_email = #{contactEmail},</if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long" >
+        DELETE FROM task_config
+        WHERE
+        id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProfile name="dev">
+        <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%cyan(%date{HH:mm:ss.SSS}) %magenta() %highlight(%-5level) %blue([%file : %line])
+                    %boldGreen(%msg%n)
+                </pattern>
+            </encoder>
+        </appender>
+
+        <!--<logger name="org.springframework.security" level="DEBUG"/>-->
+        <logger name="cn.cherish" level="DEBUG"/>
+        <logger name="org.mybatis.spring" level="DEBUG"/>
+        <logger name="org.apache.ibatis" level="DEBUG"/>
+        <root level="INFO">
+            <appender-ref ref="console"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <file>./logs/quartz_web.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollinPolicy">
+                <fileNamePattern>./logs/quartz_web.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} [%file : %line] - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <!-- project default level -->
+        <logger name="cn.cherish" level="INFO"/>
+        <root level="INFO">
+            <appender-ref ref="rollingFile"/>
+        </root>
+    </springProfile>
+
+</configuration>

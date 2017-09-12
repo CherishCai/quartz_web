@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cherish.learn.quartz_web.dal.mapper.TaskLogMapper" >
+    <!--<cache/>  cacheEnabled=false 对于分布式，Mybatis二级缓存太鸡肋
+      而且对任意更新都会清空整个Mapper缓存，不能对单独键值更新 -->
+
+    <resultMap id="BaseResultMap" type="cn.cherish.learn.quartz_web.dal.entity.TaskLog" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+        <result column="task_name" property="taskName" jdbcType="VARCHAR" />
+        <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="task_status" property="taskStatus" jdbcType="VARCHAR" />
+        <result column="fire_info" property="fireInfo" jdbcType="VARCHAR" />
+        <result column="server_host" property="serverHost" jdbcType="VARCHAR" />
+        <result column="server_duid" property="serverDuid" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="Base_Column_List" >
+        id, group_name, task_name, start_time, end_time, task_status, fire_info, server_host, server_duid
+    </sql>
+
+    <select id="findById" parameterType="java.lang.Long" resultMap="BaseResultMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM task_log
+        WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="cn.cherish.learn.quartz_web.dal.entity.TaskLog" >
+        INSERT INTO task_log
+        (group_name, task_name, start_time, end_time, task_status, fire_info, server_host, server_duid)
+        VALUES
+        (#{groupName}, #{taskName}, #{startTime}, #{endTime}, #{taskStatus}, #{fireInfo},  #{server_host},  #{server_duid})
+    </insert>
+
+    <update id="updateById" parameterType="cn.cherish.learn.quartz_web.dal.entity.TaskLog" >
+        UPDATE task_log
+        <set>
+            <if test="groupName != null">group_name = #{groupName},</if>
+            <if test="taskName != null">task_name = #{taskName},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="taskStatus != null">task_status = #{taskStatus},</if>
+            <if test="fireInfo != null">fire_info = #{fireInfo},</if>
+            <if test="serverHost != null">server_host = #{serverHost},</if>
+            <if test="serverDuid != null">server_duid = #{serverDuid},</if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+
+    <delete id="deleteById" parameterType="java.lang.Long" >
+        DELETE FROM task_log
+        WHERE
+        id = #{id}
+    </delete>
+
+</mapper>
