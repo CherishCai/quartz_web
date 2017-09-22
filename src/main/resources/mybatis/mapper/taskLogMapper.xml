@@ -35,7 +35,7 @@
         INSERT INTO task_log
         (group_name, task_name, start_time, end_time, task_status, fire_info, server_host, server_duid)
         VALUES
-        (#{groupName}, #{taskName}, #{startTime}, #{endTime}, #{taskStatus}, #{fireInfo},  #{server_host},  #{server_duid})
+        (#{groupName}, #{taskName}, #{startTime}, #{endTime}, #{taskStatus}, #{fireInfo},  #{serverHost},  #{serverDuid})
     </insert>
 
     <update id="updateById" parameterType="cn.cherish.learn.quartz_web.dal.entity.TaskLog" >

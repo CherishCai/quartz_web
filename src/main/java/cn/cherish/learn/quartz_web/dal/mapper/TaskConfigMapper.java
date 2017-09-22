@@ -5,7 +5,7 @@
 package cn.cherish.learn.quartz_web.dal.mapper;
 
 import cn.cherish.learn.quartz_web.dal.entity.TaskConfig;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * @version 1.0
  * @date 2017/9/5 20:25
  */
-@Repository
+@Mapper
 public interface TaskConfigMapper {
 
     int insert(TaskConfig entity);
